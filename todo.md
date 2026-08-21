@@ -64,3 +64,5 @@
 - [x] Extend direct activity interaction tests to prove voice guidance cannot auto-restart after choice, drag, or drawing begins.
 - [ ] Confirm in the authenticated child flow that seven-second applause, voice interruption, and Back-to-level-map behavior work as intended.
 - [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.
+- [x] Fix the completion overlay’s Next Level action so it opens the next level in the same activity.
+- [x] Add regression coverage and verify the Next Level button works in the child completion flow.
