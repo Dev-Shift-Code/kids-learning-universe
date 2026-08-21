@@ -1,0 +1,22 @@
+# Project TODO
+
+- [x] Establish a central learning configuration defining exactly the 3–5, 6–8, and 9–10 age groups; Math, Reading, Science, Art, and Music subjects; activity interaction types; progression thresholds; and milestone badge rules.
+- [x] Create database models and typed backend procedures for authenticated families, up to four child profiles per account, PIN-protected parent access, independent child progress, completion records, badges, and learning-session analytics.
+- [x] Build a premium, colorful, animated, child-safe home screen with the exact age-group selector labels 3–5, 6–8, and 9–10 and the exact subject labels Math, Reading, Science, Art, and Music.
+- [x] Build child-profile selection and profile management with custom name, avatar, age-group assignment, a four-child account limit, and individual progress summaries.
+- [x] Build subject and level experiences with database-backed category progress bars, clear locked/unlocked states, and automatic sequential level unlocking after successful completion.
+- [x] Build representative multiple-choice, drag-and-drop, and drawing activities with age-adapted prompts and difficulty.
+- [x] Provide a clearly discoverable voice-guidance control on every activity screen, with spoken instructions available for pre-readers.
+- [x] Add distinct age- and level-specific prompts, answer sets, and challenge behaviors for every representative activity type.
+- [x] Add a clear resilient fallback state when browser voice guidance is unavailable or blocked.
+- [x] Expand Science, Music, and Art with concrete level-specific content and challenge changes across every age group.
+- [x] Implement completion scoring, stars, collectible badges, and an animated milestone celebration screen.
+- [x] Build a PIN-protected parent dashboard displaying per-child category progress, time spent, completed activities, and earned badges.
+- [x] Persist authenticated data so child profiles and learning progress are synchronized across devices.
+- [x] Add unit tests covering the learning configuration, age adaptation, progress unlocking, scoring, profile limits, and parent PIN verification.
+- [x] Perform responsive visual verification, run checks and tests, and record completion in this checklist.
+- [x] Add an individual progress summary to every child profile card.
+- [x] Add a database-backed level selection screen with explicit playable and locked states.
+- [x] Add genuine 1-, 2-, and 3-star scoring and align reward badges with every configured milestone level.
+- [x] Add explicit unit tests for the exact required configuration labels and scoring tiers.
+- [x] Verify the library and activity screens responsively, then rerun final checks and tests.
