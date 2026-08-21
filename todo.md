@@ -31,4 +31,13 @@
 - [x] Verify the square thumbnail cards on desktop and mobile, then save the visual refinement.
 - [x] Show two square category cards in every row on phone-sized screens.
 - [x] Verify the two-column mobile category grid and save the layout refinement.
-- [ ] Save a delivery checkpoint for the square-thumbnail and two-column mobile category-grid refinements.
+- [x] Save a delivery checkpoint for the square-thumbnail and two-column mobile category-grid refinements.
+- [x] Fix child-profile card selection so the selected profile ID is always passed to the category library and activity flow.
+- [x] Verify selected-profile query persistence with regression coverage for library, category, level, and activity routes.
+- [x] Add route-level regression coverage that verifies the selected profile query is consumed across Library, Activities, Levels, and Activity.
+- [x] Add component- or route-level verification that every child-learning route receives and retains the selected profile query.
+- [ ] Confirm the authenticated Dianna profile flow in the live preview after the repair.
+- [x] Audit all 90 category activities and replace generic placeholder content with specific learning objectives, prompts, options, answers, and interactions.
+- [x] Add age-appropriate activity variations for ages 3–5, 6–8, and 9–10 across every category.
+- [x] Verify representative activities use category-specific correct answers rather than generic answers or placeholder tasks.
+- [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.
