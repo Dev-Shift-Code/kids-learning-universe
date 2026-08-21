@@ -9,38 +9,12 @@ type CelebrationOverlayProps = {
 };
 
 const confetti = ["#FFC744", "#FF7F52", "#77D9B4", "#A78BFA", "#FF8CBE", "#53B0F7", "#F5D179", "#A8DF6E"];
+export const CELEBRATION_CLAP_URL = "/manus-storage/celebration-crowd-clapping_6baab30d.mp3";
 
 function playCelebrationSound(milestone: boolean) {
-  const AudioContextConstructor = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  if (AudioContextConstructor) {
-    const context = new AudioContextConstructor();
-    const clapAt = (time: number) => {
-      const buffer = context.createBuffer(1, Math.floor(context.sampleRate * 0.08), context.sampleRate);
-      const samples = buffer.getChannelData(0);
-      for (let index = 0; index < samples.length; index += 1) samples[index] = (Math.random() * 2 - 1) * Math.exp(-index / (context.sampleRate * 0.018));
-      const source = context.createBufferSource();
-      const gain = context.createGain();
-      source.buffer = buffer;
-      gain.gain.setValueAtTime(0.42, time);
-      gain.gain.exponentialRampToValueAtTime(0.01, time + 0.08);
-      source.connect(gain).connect(context.destination);
-      source.start(time);
-    };
-    const now = context.currentTime;
-    [0, 0.13, 0.26].forEach((delay) => clapAt(now + delay));
-    const chime = context.createOscillator();
-    const chimeGain = context.createGain();
-    chime.type = "triangle";
-    chime.frequency.setValueAtTime(milestone ? 784 : 659, now + 0.07);
-    chime.frequency.exponentialRampToValueAtTime(milestone ? 1046 : 880, now + 0.42);
-    chimeGain.gain.setValueAtTime(0.001, now);
-    chimeGain.gain.exponentialRampToValueAtTime(0.16, now + 0.09);
-    chimeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.54);
-    chime.connect(chimeGain).connect(context.destination);
-    chime.start(now);
-    chime.stop(now + 0.56);
-    window.setTimeout(() => context.close(), 900);
-  }
+  const applause = new Audio(CELEBRATION_CLAP_URL);
+  applause.volume = 0.85;
+  void applause.play().catch(() => undefined);
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
     const cheer = new SpeechSynthesisUtterance(milestone ? "Yehey! You earned a new badge!" : "Yehey! Great job!");

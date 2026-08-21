@@ -46,4 +46,6 @@
 - [x] Test reward audio, per-activity level locking, and the Aa tracing guide across the child flow.
 - [x] Add regression coverage proving Learn the Alphabet progression cannot unlock Letter Tracing.
 - [ ] Confirm in the authenticated child flow that the celebration cheer plays and the Aa guide is visible.
+- [x] Replace synthesized completion applause with the user-supplied crowd-clapping audio effect.
+- [x] Verify the supplied crowd-clapping file is wired into the celebration experience.
 - [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.
