@@ -33,7 +33,7 @@ export const childProfiles = mysqlTable("childProfiles", {
 export const subjectProgress = mysqlTable("subjectProgress", {
   id: int("id").autoincrement().primaryKey(),
   childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
-  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music"]).notNull(),
+  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
   unlockedLevel: int("unlockedLevel").default(1).notNull(),
   completedLevels: int("completedLevels").default(0).notNull(),
   totalStars: int("totalStars").default(0).notNull(),
@@ -46,7 +46,7 @@ export const subjectProgress = mysqlTable("subjectProgress", {
 export const activityCompletions = mysqlTable("activityCompletions", {
   id: int("id").autoincrement().primaryKey(),
   childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
-  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music"]).notNull(),
+  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
   levelNumber: int("levelNumber").notNull(),
   interactionType: mysqlEnum("interactionType", ["multiple-choice", "drag-and-drop", "drawing"]).notNull(),
   stars: int("stars").notNull(),
@@ -61,7 +61,7 @@ export const childBadges = mysqlTable("childBadges", {
   id: int("id").autoincrement().primaryKey(),
   childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
   badgeId: varchar("badgeId", { length: 64 }).notNull(),
-  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music"]).notNull(),
+  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
   earnedAt: timestamp("earnedAt").defaultNow().notNull(),
 }, (table) => [
   uniqueIndex("childBadges_profile_badge_unique").on(table.childProfileId, table.badgeId),
@@ -71,7 +71,7 @@ export const childBadges = mysqlTable("childBadges", {
 export const learningSessions = mysqlTable("learningSessions", {
   id: int("id").autoincrement().primaryKey(),
   childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
-  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music"]).notNull(),
+  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
   durationSeconds: int("durationSeconds").notNull(),
   completedAt: timestamp("completedAt").defaultNow().notNull(),
 }, (table) => [index("learningSessions_child_idx").on(table.childProfileId)]);

@@ -7,7 +7,8 @@ import {
   parentControls,
   subjectProgress,
 } from "../drizzle/schema";
-import { LEARNING_CONFIG, type AgeGroup, type InteractionType, type Subject } from "../shared/learningConfig";
+import { CURRICULUM, getCategory, type CategoryId } from "../shared/curriculumConfig";
+import { LEARNING_CONFIG, type AgeGroup, type InteractionType } from "../shared/learningConfig";
 import { canCreateProfile, clampStars, isMilestoneLevel, nextProgressAfterCompletion } from "../shared/learningEngine";
 import { getDb } from "./db";
 import { hashParentPin, verifyParentPin } from "./parentPin";
@@ -31,7 +32,7 @@ export async function createChildProfile(input: { userId: number; name: string; 
   }
   const [{ id }] = await db.insert(childProfiles).values(input).$returningId();
   await db.insert(subjectProgress).values(
-    LEARNING_CONFIG.subjects.map((subject) => ({ childProfileId: id, subject: subject.id })),
+    CURRICULUM.map((category) => ({ childProfileId: id, subject: category.id })),
   );
   return getChildSnapshot(input.userId, id);
 }
@@ -50,6 +51,12 @@ export async function getOwnedProfile(userId: number, profileId: number) {
 export async function getChildSnapshot(userId: number, profileId: number) {
   const db = await requireDb();
   const profile = await getOwnedProfile(userId, profileId);
+  const existingProgress = await db.select({ subject: subjectProgress.subject }).from(subjectProgress).where(eq(subjectProgress.childProfileId, profileId));
+  const existingCategories = new Set(existingProgress.map((item) => item.subject));
+  const missingCategories = CURRICULUM.filter((category) => !existingCategories.has(category.id));
+  if (missingCategories.length > 0) {
+    await db.insert(subjectProgress).values(missingCategories.map((category) => ({ childProfileId: profileId, subject: category.id })));
+  }
   const [progress, badges, completions, sessions] = await Promise.all([
     db.select().from(subjectProgress).where(eq(subjectProgress.childProfileId, profileId)),
     db.select().from(childBadges).where(eq(childBadges.childProfileId, profileId)),
@@ -93,7 +100,7 @@ export async function confirmParentPin(userId: number, pin: string) {
 export async function completeLearningActivity(input: {
   userId: number;
   childProfileId: number;
-  subject: Subject;
+  category: CategoryId;
   levelNumber: number;
   interactionType: InteractionType;
   stars: number;
@@ -104,7 +111,7 @@ export async function completeLearningActivity(input: {
   const [currentProgress] = await db
     .select()
     .from(subjectProgress)
-    .where(and(eq(subjectProgress.childProfileId, input.childProfileId), eq(subjectProgress.subject, input.subject)))
+    .where(and(eq(subjectProgress.childProfileId, input.childProfileId), eq(subjectProgress.subject, input.category)))
     .limit(1);
   if (!currentProgress || input.levelNumber > currentProgress.unlockedLevel) {
     throw new Error("Finish the available level before moving ahead.");
@@ -113,7 +120,7 @@ export async function completeLearningActivity(input: {
   const durationSeconds = Math.max(0, Math.floor(input.durationSeconds));
   await db.insert(activityCompletions).values({
     childProfileId: input.childProfileId,
-    subject: input.subject,
+    subject: input.category,
     levelNumber: input.levelNumber,
     interactionType: input.interactionType,
     stars,
@@ -121,7 +128,7 @@ export async function completeLearningActivity(input: {
   });
   await db.insert(learningSessions).values({
     childProfileId: input.childProfileId,
-    subject: input.subject,
+    subject: input.category,
     durationSeconds,
   });
   const unlockedLevel = nextProgressAfterCompletion(currentProgress.unlockedLevel, input.levelNumber, stars);
@@ -134,15 +141,13 @@ export async function completeLearningActivity(input: {
 
   const earnedMilestoneBadge = stars > 0 && isMilestoneLevel(input.levelNumber);
   if (earnedMilestoneBadge) {
-    const subjectDefinition = LEARNING_CONFIG.subjects.find((subject) => subject.id === input.subject);
-    if (subjectDefinition) {
-      const badgeId = `${subjectDefinition.badgeId}-level-${input.levelNumber}`;
-      await db.insert(childBadges).values({
-        childProfileId: input.childProfileId,
-        badgeId,
-        subject: input.subject,
-      }).onDuplicateKeyUpdate({ set: { badgeId } });
-    }
+    const categoryDefinition = getCategory(input.category);
+    const badgeId = `${categoryDefinition.id}-level-${input.levelNumber}`;
+    await db.insert(childBadges).values({
+      childProfileId: input.childProfileId,
+      badgeId,
+      subject: input.category,
+    }).onDuplicateKeyUpdate({ set: { badgeId } });
   }
   return {
     ...(await getChildSnapshot(input.userId, input.childProfileId)),

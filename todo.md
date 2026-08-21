@@ -20,3 +20,10 @@
 - [x] Add genuine 1-, 2-, and 3-star scoring and align reward badges with every configured milestone level.
 - [x] Add explicit unit tests for the exact required configuration labels and scoring tiers.
 - [x] Verify the library and activity screens responsively, then rerun final checks and tests.
+- [x] Replace the five-category curriculum with the user-provided 15 categories and their six named activities each.
+- [x] Upload and use all 15 supplied category thumbnail images in the child-facing category interface.
+- [x] Rebuild the library so category thumbnails open a dedicated six-activity view, while preserving profile-specific progress and level navigation.
+- [x] Validate the updated 15-category navigation on desktop and mobile, update tests as needed, and create a delivery checkpoint.
+- [x] Capture fresh desktop and mobile verification of the category library, activities, levels, and activity routes after the curriculum rewrite.
+- [x] Run the final validation suite and save a delivery checkpoint for the 15-category thumbnail update.
+- [x] Save the validated 15-category thumbnail and activity navigation update as a delivery checkpoint.

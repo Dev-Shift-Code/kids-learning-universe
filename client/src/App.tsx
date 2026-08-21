@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Activity from "./pages/Activity";
+import Activities from "./pages/Activities";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import Levels from "./pages/Levels";
@@ -17,8 +18,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/profiles" component={Profiles} />
       <Route path="/library" component={Library} />
-      <Route path="/levels/:subject" component={Levels} />
-      <Route path="/activity/:subject" component={Activity} />
+      <Route path="/activities/:category" component={Activities} />
+      <Route path="/levels/:category" component={Levels} />
+      <Route path="/activity/:category" component={Activity} />
       <Route path="/parent" component={ParentDashboard} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

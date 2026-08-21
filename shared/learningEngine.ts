@@ -1,4 +1,5 @@
-import { LEARNING_CONFIG, type AgeGroup, type Subject } from "./learningConfig";
+import { type CategoryId } from "./curriculumConfig";
+import { LEARNING_CONFIG, type AgeGroup } from "./learningConfig";
 
 export function clampStars(stars: number) {
   return Math.min(3, Math.max(0, Math.floor(stars)));
@@ -33,7 +34,7 @@ export function isMilestoneLevel(level: number) {
   return LEARNING_CONFIG.milestoneLevels.includes(level as 3 | 6 | 12);
 }
 
-export function getAgeAdaptation(ageGroup: AgeGroup, subject: Subject) {
+export function getAgeAdaptation(ageGroup: AgeGroup, category: CategoryId) {
   const pace = LEARNING_CONFIG.ageGroups[ageGroup].promptPace;
   const maxAnswerOptions = ageGroup === "3–5" ? 2 : ageGroup === "6–8" ? 3 : 4;
   const targetSeconds = ageGroup === "3–5" ? 0 : ageGroup === "6–8" ? 45 : 30;
@@ -41,7 +42,7 @@ export function getAgeAdaptation(ageGroup: AgeGroup, subject: Subject) {
     pace,
     maxAnswerOptions,
     targetSeconds,
-    subject,
+    category,
     voiceAutoplay: ageGroup === "3–5",
   };
 }

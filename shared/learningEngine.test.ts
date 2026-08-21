@@ -1,11 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { AGE_GROUPS, SUBJECTS } from "./learningConfig";
+import { CURRICULUM } from "./curriculumConfig";
+import { AGE_GROUPS } from "./learningConfig";
 import { calculateStars, getAgeAdaptation, isMilestoneLevel, nextProgressAfterCompletion, nextUnlockedLevel } from "./learningEngine";
 
 describe("required learning configuration", () => {
-  it("preserves the exact supported age-group and subject labels", () => {
+  it("preserves the exact supported age groups and the supplied curriculum structure", () => {
     expect(AGE_GROUPS).toEqual(["3–5", "6–8", "9–10"]);
-    expect(SUBJECTS).toEqual(["Math", "Reading", "Science", "Art", "Music"]);
+    expect(CURRICULUM.map((category) => category.title)).toEqual([
+      "Alphabet & Phonics", "Numbers & Counting", "Math Adventures", "Reading & Stories", "Science Explorer",
+      "Arts & Creativity", "Music & Rhythm", "Puzzles & Brain Games", "English & Vocabulary", "Filipino Language",
+      "Social & Emotional Learning", "Life Skills", "Geography & World", "Nature & Environment", "Fun & Games",
+    ]);
+    expect(CURRICULUM.every((category) => category.activities.length === 6)).toBe(true);
   });
 });
 
@@ -36,7 +42,7 @@ describe("learning progression", () => {
 
 describe("age adaptation", () => {
   it("provides spoken-first no-timer support for the youngest group", () => {
-    expect(getAgeAdaptation("3–5", "Math")).toMatchObject({
+    expect(getAgeAdaptation("3–5", "numbers-counting")).toMatchObject({
       maxAnswerOptions: 2,
       targetSeconds: 0,
       voiceAutoplay: true,
@@ -44,7 +50,7 @@ describe("age adaptation", () => {
   });
 
   it("raises answer choices and introduces time guidance for older groups", () => {
-    expect(getAgeAdaptation("9–10", "Science")).toMatchObject({
+    expect(getAgeAdaptation("9–10", "science-explorer")).toMatchObject({
       maxAnswerOptions: 4,
       targetSeconds: 30,
       voiceAutoplay: false,

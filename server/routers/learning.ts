@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { AGE_GROUPS, SUBJECTS } from "../../shared/learningConfig";
+import { CATEGORY_IDS } from "../../shared/curriculumConfig";
+import { AGE_GROUPS } from "../../shared/learningConfig";
 import {
   completeLearningActivity,
   confirmParentPin,
@@ -14,7 +15,7 @@ import {
 import { protectedProcedure, router } from "../_core/trpc";
 
 const ageGroupSchema = z.enum(AGE_GROUPS);
-const subjectSchema = z.enum(SUBJECTS);
+const categorySchema = z.enum(CATEGORY_IDS);
 
 export const learningRouter = router({
   profiles: protectedProcedure.query(({ ctx }) => listChildProfiles(ctx.user.id)),
@@ -41,7 +42,7 @@ export const learningRouter = router({
   ),
   completeActivity: protectedProcedure.input(z.object({
     childProfileId: z.number().int().positive(),
-    subject: subjectSchema,
+    category: categorySchema,
     levelNumber: z.number().int().min(1).max(12),
     interactionType: z.enum(["multiple-choice", "drag-and-drop", "drawing"]),
     stars: z.number().int().min(0).max(3),

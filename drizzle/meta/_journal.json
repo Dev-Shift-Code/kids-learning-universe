@@ -15,6 +15,13 @@
       "when": 1787295531473,
       "tag": "0001_tense_ultimates",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787297150743,
+      "tag": "0002_chunky_sway",
+      "breakpoints": true
     }
   ]
 }
