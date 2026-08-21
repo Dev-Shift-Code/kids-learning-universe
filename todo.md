@@ -54,4 +54,13 @@
 - [ ] Exercise the celebration overlay in the authenticated child flow and confirm the supplied clapping audio stops after about three seconds.
 - [x] Verify Back to Home returns to the homepage and Next Level advances correctly, including the final-level fallback.
 - [x] Add interaction-level regression coverage for celebration overlay navigation actions.
+- [x] Extend the user-supplied crowd-clapping celebration sound to seven seconds.
+- [x] Stop voice guidance immediately when a child chooses, drags, or draws an answer, without replaying it automatically.
+- [x] Replace Back to Home with Back and return to the current activity’s level map.
+- [x] Test the seven-second audio, interrupted voice guidance, and Back-to-level-map behavior.
+- [x] Add regression coverage proving voice guidance is cancelled on the first answer interaction and cannot auto-restart in that activity.
+- [x] Add route-level verification that the celebration Back action resolves to the current activity’s level-map path.
+- [x] Add activity-level regression coverage proving choice, drag, and drawing interactions pause voice guidance without auto-restart.
+- [x] Extend direct activity interaction tests to prove voice guidance cannot auto-restart after choice, drag, or drawing begins.
+- [ ] Confirm in the authenticated child flow that seven-second applause, voice interruption, and Back-to-level-map behavior work as intended.
 - [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getCompletionNextPath } from "./celebrationNavigation";
+import { getCelebrationBackPath, getCompletionNextPath } from "./celebrationNavigation";
 
 describe("celebration navigation", () => {
   it("opens the next level of the same selected activity", () => {
@@ -10,5 +10,10 @@ describe("celebration navigation", () => {
   it("returns to the activity list after the last available level", () => {
     expect(getCompletionNextPath({ categoryId: "alphabet-phonics", profileId: 7, activityId: "learn-alphabet", level: 12, levelsPerActivity: 12 }))
       .toBe("/activities/alphabet-phonics?profile=7");
+  });
+
+  it("returns Back to the selected activity’s level map", () => {
+    expect(getCelebrationBackPath({ categoryId: "alphabet-phonics", profileId: 7, activityId: "learn-alphabet" }))
+      .toBe("/levels/alphabet-phonics?profile=7&activity=learn-alphabet");
   });
 });

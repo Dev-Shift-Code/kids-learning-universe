@@ -5,13 +5,13 @@ type CelebrationOverlayProps = {
   stars: number;
   milestone: boolean;
   badgeName?: string;
-  onBackHome: () => void;
+  onBackToLevels: () => void;
   onNextLevel: () => void;
 };
 
 const confetti = ["#FFC744", "#FF7F52", "#77D9B4", "#A78BFA", "#FF8CBE", "#53B0F7", "#F5D179", "#A8DF6E"];
 export const CELEBRATION_CLAP_URL = "/manus-storage/celebration-crowd-clapping_6baab30d.mp3";
-export const CELEBRATION_SOUND_DURATION_MS = 3000;
+export const CELEBRATION_SOUND_DURATION_MS = 7000;
 
 function playCelebrationSound() {
   const applause = new Audio(CELEBRATION_CLAP_URL);
@@ -28,7 +28,7 @@ function playCelebrationSound() {
   };
 }
 
-export function CelebrationOverlay({ stars, milestone, badgeName, onBackHome, onNextLevel }: CelebrationOverlayProps) {
+export function CelebrationOverlay({ stars, milestone, badgeName, onBackToLevels, onNextLevel }: CelebrationOverlayProps) {
   useEffect(() => {
     const stopSound = playCelebrationSound();
     return () => {
@@ -54,7 +54,7 @@ export function CelebrationOverlay({ stars, milestone, badgeName, onBackHome, on
           <div className="mt-7 flex justify-center gap-2" aria-label={`${stars} stars earned`}>
             {[1, 2, 3].map((star) => <Star key={star} className={`h-10 w-10 ${star <= stars ? "fill-[#ffc744] text-[#ffc744]" : "fill-[#eee7da] text-[#eee7da]"}`} />)}
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2"><button type="button" onClick={onBackHome} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 font-extrabold text-[#5a4b85] shadow-[0_6px_0_#e7dff2]"><Home className="h-5 w-5" /> Back to Home</button><button type="button" onClick={onNextLevel} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#ff8b5c] px-5 py-3.5 font-extrabold text-white shadow-[0_7px_0_#df6740]">Next Level <ChevronRight className="h-5 w-5" /></button></div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2"><button type="button" onClick={onBackToLevels} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 font-extrabold text-[#5a4b85] shadow-[0_6px_0_#e7dff2]"><Home className="h-5 w-5" /> Back</button><button type="button" onClick={onNextLevel} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#ff8b5c] px-5 py-3.5 font-extrabold text-white shadow-[0_7px_0_#df6740]">Next Level <ChevronRight className="h-5 w-5" /></button></div>
         </div>
       </div>
     </div>
