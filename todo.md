@@ -27,3 +27,8 @@
 - [x] Capture fresh desktop and mobile verification of the category library, activities, levels, and activity routes after the curriculum rewrite.
 - [x] Run the final validation suite and save a delivery checkpoint for the 15-category thumbnail update.
 - [x] Save the validated 15-category thumbnail and activity navigation update as a delivery checkpoint.
+- [x] Make every category thumbnail area 1:1 square and preserve the full supplied thumbnail image without cropping.
+- [x] Verify the square thumbnail cards on desktop and mobile, then save the visual refinement.
+- [x] Show two square category cards in every row on phone-sized screens.
+- [x] Verify the two-column mobile category grid and save the layout refinement.
+- [ ] Save a delivery checkpoint for the square-thumbnail and two-column mobile category-grid refinements.
