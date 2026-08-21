@@ -48,4 +48,10 @@
 - [ ] Confirm in the authenticated child flow that the celebration cheer plays and the Aa guide is visible.
 - [x] Replace synthesized completion applause with the user-supplied crowd-clapping audio effect.
 - [x] Verify the supplied crowd-clapping file is wired into the celebration experience.
+- [x] Remove spoken celebration feedback and limit the supplied crowd-clapping audio to three seconds.
+- [x] Replace the disabled celebration state with Back to Home and Next Level completion buttons.
+- [x] Verify the revised three-second audio behavior and both completion navigation actions.
+- [ ] Exercise the celebration overlay in the authenticated child flow and confirm the supplied clapping audio stops after about three seconds.
+- [x] Verify Back to Home returns to the homepage and Next Level advances correctly, including the final-level fallback.
+- [x] Add interaction-level regression coverage for celebration overlay navigation actions.
 - [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.

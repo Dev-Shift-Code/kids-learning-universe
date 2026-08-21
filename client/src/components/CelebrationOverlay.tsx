@@ -1,42 +1,40 @@
-import { Award, ChevronRight, Sparkles, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Award, ChevronRight, Home, Sparkles, Star } from "lucide-react";
+import React, { useEffect } from "react";
 
 type CelebrationOverlayProps = {
   stars: number;
   milestone: boolean;
   badgeName?: string;
-  onContinue: () => void;
+  onBackHome: () => void;
+  onNextLevel: () => void;
 };
 
 const confetti = ["#FFC744", "#FF7F52", "#77D9B4", "#A78BFA", "#FF8CBE", "#53B0F7", "#F5D179", "#A8DF6E"];
 export const CELEBRATION_CLAP_URL = "/manus-storage/celebration-crowd-clapping_6baab30d.mp3";
+export const CELEBRATION_SOUND_DURATION_MS = 3000;
 
-function playCelebrationSound(milestone: boolean) {
+function playCelebrationSound() {
   const applause = new Audio(CELEBRATION_CLAP_URL);
   applause.volume = 0.85;
   void applause.play().catch(() => undefined);
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const cheer = new SpeechSynthesisUtterance(milestone ? "Yehey! You earned a new badge!" : "Yehey! Great job!");
-    cheer.rate = 1.08;
-    cheer.pitch = 1.28;
-    cheer.volume = 0.9;
-    window.speechSynthesis.speak(cheer);
-  }
+  const stopTimer = window.setTimeout(() => {
+    applause.pause();
+    applause.currentTime = 0;
+  }, CELEBRATION_SOUND_DURATION_MS);
+  return () => {
+    window.clearTimeout(stopTimer);
+    applause.pause();
+    applause.currentTime = 0;
+  };
 }
 
-export function CelebrationOverlay({ stars, milestone, badgeName, onContinue }: CelebrationOverlayProps) {
-  const [canContinue, setCanContinue] = useState(false);
-
+export function CelebrationOverlay({ stars, milestone, badgeName, onBackHome, onNextLevel }: CelebrationOverlayProps) {
   useEffect(() => {
-    playCelebrationSound(milestone);
-    const unlockTimer = window.setTimeout(() => setCanContinue(true), 1200);
-    const continueTimer = window.setTimeout(onContinue, 3300);
+    const stopSound = playCelebrationSound();
     return () => {
-      window.clearTimeout(unlockTimer);
-      window.clearTimeout(continueTimer);
+      stopSound();
     };
-  }, [milestone, onContinue]);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 grid place-items-center overflow-hidden bg-[#34295f]/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Activity celebration">
@@ -56,9 +54,7 @@ export function CelebrationOverlay({ stars, milestone, badgeName, onContinue }: 
           <div className="mt-7 flex justify-center gap-2" aria-label={`${stars} stars earned`}>
             {[1, 2, 3].map((star) => <Star key={star} className={`h-10 w-10 ${star <= stars ? "fill-[#ffc744] text-[#ffc744]" : "fill-[#eee7da] text-[#eee7da]"}`} />)}
           </div>
-          <button type="button" onClick={onContinue} disabled={!canContinue} className="lift-on-hover mt-8 inline-flex min-h-13 items-center gap-2 rounded-2xl bg-[#ff8b5c] px-6 py-3.5 font-extrabold text-white shadow-[0_7px_0_#df6740] disabled:cursor-wait disabled:opacity-70">
-            {canContinue ? <>Keep exploring <ChevronRight className="h-5 w-5" /></> : "Celebrating…"}
-          </button>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2"><button type="button" onClick={onBackHome} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 font-extrabold text-[#5a4b85] shadow-[0_6px_0_#e7dff2]"><Home className="h-5 w-5" /> Back to Home</button><button type="button" onClick={onNextLevel} className="lift-on-hover inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#ff8b5c] px-5 py-3.5 font-extrabold text-white shadow-[0_7px_0_#df6740]">Next Level <ChevronRight className="h-5 w-5" /></button></div>
         </div>
       </div>
     </div>
