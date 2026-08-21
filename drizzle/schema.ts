@@ -43,10 +43,25 @@ export const subjectProgress = mysqlTable("subjectProgress", {
   index("subjectProgress_child_idx").on(table.childProfileId),
 ]);
 
+export const activityProgress = mysqlTable("activityProgress", {
+  id: int("id").autoincrement().primaryKey(),
+  childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
+  subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
+  activityId: varchar("activityId", { length: 64 }).notNull(),
+  unlockedLevel: int("unlockedLevel").default(1).notNull(),
+  completedLevels: int("completedLevels").default(0).notNull(),
+  totalStars: int("totalStars").default(0).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [
+  uniqueIndex("activityProgress_child_subject_activity_unique").on(table.childProfileId, table.subject, table.activityId),
+  index("activityProgress_child_idx").on(table.childProfileId),
+]);
+
 export const activityCompletions = mysqlTable("activityCompletions", {
   id: int("id").autoincrement().primaryKey(),
   childProfileId: int("childProfileId").notNull().references(() => childProfiles.id, { onDelete: "cascade" }),
   subject: mysqlEnum("subject", ["Math", "Reading", "Science", "Art", "Music", "alphabet-phonics", "numbers-counting", "math-adventures", "reading-stories", "science-explorer", "arts-creativity", "music-rhythm", "puzzles-brain-games", "english-vocabulary", "filipino-language", "social-emotional-learning", "life-skills", "geography-world", "nature-environment", "fun-games"]).notNull(),
+  activityId: varchar("activityId", { length: 64 }).notNull().default("legacy-activity"),
   levelNumber: int("levelNumber").notNull(),
   interactionType: mysqlEnum("interactionType", ["multiple-choice", "drag-and-drop", "drawing"]).notNull(),
   stars: int("stars").notNull(),
@@ -80,3 +95,4 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type ChildProfile = typeof childProfiles.$inferSelect;
 export type SubjectProgress = typeof subjectProgress.$inferSelect;
+export type ActivityProgress = typeof activityProgress.$inferSelect;

@@ -40,4 +40,10 @@
 - [x] Audit all 90 category activities and replace generic placeholder content with specific learning objectives, prompts, options, answers, and interactions.
 - [x] Add age-appropriate activity variations for ages 3–5, 6–8, and 9–10 across every category.
 - [x] Verify representative activities use category-specific correct answers rather than generic answers or placeholder tasks.
+- [x] Play a child-friendly celebration sound effect and spoken “Yehey!” feedback when an activity is completed.
+- [x] Track level unlocking separately for every category activity so completing Learn the Alphabet cannot unlock Letter Tracing levels.
+- [x] Render a visible Aa tracing guide in the Letter Tracing canvas instead of an empty drawing surface.
+- [x] Test reward audio, per-activity level locking, and the Aa tracing guide across the child flow.
+- [x] Add regression coverage proving Learn the Alphabet progression cannot unlock Letter Tracing.
+- [ ] Confirm in the authenticated child flow that the celebration cheer plays and the Aa guide is visible.
 - [ ] Verify the complete profile-selection navigation flow while authenticated before delivery.

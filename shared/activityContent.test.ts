@@ -38,4 +38,10 @@ describe("activity content catalog", () => {
     expect(middle.answer).toBe("24");
     expect(older.answer).toBe("56");
   });
+
+  it("provides an Aa visual tracing guide for the youngest Letter Tracing activity", () => {
+    const tracing = getActivityExercise("alphabet-phonics", "letter-tracing", "3–5", 1);
+    expect(tracing.tracingGuide).toBe("Aa");
+    expect(tracing.drawingGoal).toContain("Aa");
+  });
 });

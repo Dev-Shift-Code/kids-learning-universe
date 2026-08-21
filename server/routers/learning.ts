@@ -43,6 +43,7 @@ export const learningRouter = router({
   completeActivity: protectedProcedure.input(z.object({
     childProfileId: z.number().int().positive(),
     category: categorySchema,
+    activityId: z.string().trim().min(1).max(64),
     levelNumber: z.number().int().min(1).max(12),
     interactionType: z.enum(["multiple-choice", "drag-and-drop", "drawing"]),
     stars: z.number().int().min(0).max(3),

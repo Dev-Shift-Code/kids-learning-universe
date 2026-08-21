@@ -7,12 +7,13 @@ export type ActivityExercise = {
   choices: readonly string[];
   answer: string;
   drawingGoal?: string;
+  tracingGuide?: string;
 };
 
 type AgeExercises = Record<AgeGroup, ActivityExercise>;
 
 const quiz = (instruction: string, hint: string, choices: readonly string[], answer: string): ActivityExercise => ({ instruction, hint, choices, answer });
-const draw = (instruction: string, hint: string, drawingGoal: string): ActivityExercise => ({ instruction, hint, choices: [], answer: "__drawing_complete__", drawingGoal });
+const draw = (instruction: string, hint: string, drawingGoal: string, tracingGuide?: string): ActivityExercise => ({ instruction, hint, choices: [], answer: "__drawing_complete__", drawingGoal, tracingGuide });
 const ages = (young: ActivityExercise, middle: ActivityExercise, older: ActivityExercise): AgeExercises => ({ "3–5": young, "6–8": middle, "9–10": older });
 
 /**
@@ -32,9 +33,9 @@ export const ACTIVITY_EXERCISES: Record<string, AgeExercises> = {
     quiz("Which word has a long a sound?", "Listen for the sound in cake.", ["cake", "cat", "cap", "camp"], "cake"),
   ),
   "alphabet-phonics/letter-tracing": ages(
-    draw("Trace a big uppercase A, then add a tiny apple beside it.", "Start at the top and draw two slanting lines.", "One uppercase A and one apple"),
-    draw("Write a lowercase g, then add a circle around it.", "Remember that g has a round body and a tail.", "One lowercase g with a circle"),
-    draw("Write the word ship using clear lowercase letters.", "Say each sound: sh-i-p.", "The word ship"),
+    draw("Trace the Aa guide, then add a tiny apple beside it.", "Start at the top for A. For a, make a small circle then add its line.", "The Aa guide and one apple", "Aa"),
+    draw("Trace the g guide, then add a circle around it.", "Start with the round body, then follow the tail.", "The lowercase g guide with a circle", "g"),
+    draw("Trace the word ship using the dotted guide.", "Say each sound: sh-i-p.", "The word ship", "ship"),
   ),
   "alphabet-phonics/beginning-sounds": ages(
     quiz("Which picture-word begins with /b/?", "Ball starts with /b/.", ["ball", "sun", "fish", "moon"], "ball"),

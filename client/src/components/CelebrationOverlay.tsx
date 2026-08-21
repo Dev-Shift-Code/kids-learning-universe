@@ -10,17 +10,59 @@ type CelebrationOverlayProps = {
 
 const confetti = ["#FFC744", "#FF7F52", "#77D9B4", "#A78BFA", "#FF8CBE", "#53B0F7", "#F5D179", "#A8DF6E"];
 
+function playCelebrationSound(milestone: boolean) {
+  const AudioContextConstructor = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (AudioContextConstructor) {
+    const context = new AudioContextConstructor();
+    const clapAt = (time: number) => {
+      const buffer = context.createBuffer(1, Math.floor(context.sampleRate * 0.08), context.sampleRate);
+      const samples = buffer.getChannelData(0);
+      for (let index = 0; index < samples.length; index += 1) samples[index] = (Math.random() * 2 - 1) * Math.exp(-index / (context.sampleRate * 0.018));
+      const source = context.createBufferSource();
+      const gain = context.createGain();
+      source.buffer = buffer;
+      gain.gain.setValueAtTime(0.42, time);
+      gain.gain.exponentialRampToValueAtTime(0.01, time + 0.08);
+      source.connect(gain).connect(context.destination);
+      source.start(time);
+    };
+    const now = context.currentTime;
+    [0, 0.13, 0.26].forEach((delay) => clapAt(now + delay));
+    const chime = context.createOscillator();
+    const chimeGain = context.createGain();
+    chime.type = "triangle";
+    chime.frequency.setValueAtTime(milestone ? 784 : 659, now + 0.07);
+    chime.frequency.exponentialRampToValueAtTime(milestone ? 1046 : 880, now + 0.42);
+    chimeGain.gain.setValueAtTime(0.001, now);
+    chimeGain.gain.exponentialRampToValueAtTime(0.16, now + 0.09);
+    chimeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.54);
+    chime.connect(chimeGain).connect(context.destination);
+    chime.start(now);
+    chime.stop(now + 0.56);
+    window.setTimeout(() => context.close(), 900);
+  }
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+    const cheer = new SpeechSynthesisUtterance(milestone ? "Yehey! You earned a new badge!" : "Yehey! Great job!");
+    cheer.rate = 1.08;
+    cheer.pitch = 1.28;
+    cheer.volume = 0.9;
+    window.speechSynthesis.speak(cheer);
+  }
+}
+
 export function CelebrationOverlay({ stars, milestone, badgeName, onContinue }: CelebrationOverlayProps) {
   const [canContinue, setCanContinue] = useState(false);
 
   useEffect(() => {
+    playCelebrationSound(milestone);
     const unlockTimer = window.setTimeout(() => setCanContinue(true), 1200);
     const continueTimer = window.setTimeout(onContinue, 3300);
     return () => {
       window.clearTimeout(unlockTimer);
       window.clearTimeout(continueTimer);
     };
-  }, [onContinue]);
+  }, [milestone, onContinue]);
 
   return (
     <div className="fixed inset-0 z-50 grid place-items-center overflow-hidden bg-[#34295f]/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Activity celebration">
